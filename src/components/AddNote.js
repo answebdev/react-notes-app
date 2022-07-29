@@ -8,7 +8,11 @@ const AddNote = ({ handleAddNote }) => {
   };
 
   const handleSaveClick = () => {
-    handleAddNote(noteText);
+    // Check that value user types is valid before saving it to state -
+    // use 'trim' to remove whitespace from the start and end of a string:
+    if (noteText.trim().length > 0) {
+      handleAddNote(noteText);
+    }
   };
 
   return (
