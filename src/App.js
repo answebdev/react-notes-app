@@ -29,9 +29,23 @@ const App = () => {
     },
   ]);
 
+  const addNote = (text) => {
+    const date = new Date();
+    const newNote = {
+      id: nanoid,
+      text: text,
+      date: date.toLocaleDateString(),
+    };
+    // Create a  new array of new notes - use spread operator so as not to mutate the state, which is bad
+    const newNotes = [...notes, newNote];
+
+    // Update the state with the new array of new notes
+    setNotes(newNotes);
+  };
+
   return (
     <div className='container'>
-      <NotesList notes={notes} />
+      <NotesList notes={notes} handleAddNote={addNote} />
     </div>
   );
 };
