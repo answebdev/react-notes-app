@@ -12,6 +12,9 @@ const AddNote = ({ handleAddNote }) => {
     // use 'trim' to remove whitespace from the start and end of a string:
     if (noteText.trim().length > 0) {
       handleAddNote(noteText);
+
+      // Reset textarea after submit
+      setNoteText('');
     }
   };
 
