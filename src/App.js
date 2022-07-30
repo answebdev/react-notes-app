@@ -29,6 +29,7 @@ const App = () => {
     },
   ]);
 
+  // Add a note
   const addNote = (text) => {
     const date = new Date();
     const newNote = {
@@ -43,9 +44,25 @@ const App = () => {
     setNotes(newNotes);
   };
 
+  // Delete a note
+  const deleteNote = (id) => {
+    // Use filter function on 'notes' array:
+    // to remove the note that has the same ID as the ID passed in above (the one passed in when the delete button is clicked).
+    // The filter function returns a new array, so we don't have to worry about creating a new array (like we do above when adding a new note).
+    // Instead, we can just assign the clicked on note to a variable:
+    // 'const newNotes = ...'
+    // Then use 'SetNotes' and pass in the new array.
+    const newNotes = notes.filter((note) => note.id !== id);
+    setNotes(newNotes);
+  };
+
   return (
     <div className='container'>
-      <NotesList notes={notes} handleAddNote={addNote} />
+      <NotesList
+        notes={notes}
+        handleAddNote={addNote}
+        handleDeleteNote={deleteNote}
+      />
     </div>
   );
 };
