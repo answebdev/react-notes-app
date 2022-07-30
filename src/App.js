@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { nanoid } from 'nanoid';
+import Header from './components/Header';
 import NotesList from './components/NotesList';
 import Search from './components/Search';
 // Video: https://www.youtube.com/watch?v=8KB3DHI-QbM
@@ -8,6 +9,7 @@ import Search from './components/Search';
 
 const App = () => {
   const [searchText, setSearchText] = useState('');
+  const [darkMode, setDarkMode] = useState(false);
 
   const [notes, setNotes] = useState([
     {
@@ -64,20 +66,24 @@ const App = () => {
   };
 
   return (
-    <div className='container'>
-      <Search handleSearchNote={setSearchText} />
-      <NotesList
-        // Filter the notes based on the search term before it gets passed to the notes list:
-        // 'note.text' is the text of the note.
-        // So, take the current list of notes, filter those notes to return only the ones that include the search text,
-        // which is what the user has typed into the search bar.
-        // It will then pass the result of this to the 'NotesList' component as a 'notes' prop:
-        notes={notes.filter((note) =>
-          note.text.toLowerCase().includes(searchText)
-        )}
-        handleAddNote={addNote}
-        handleDeleteNote={deleteNote}
-      />
+    // if 'darkMode' is equal to true (&&), then add the 'dark-mode' class:
+    <div className={`${darkMode && 'dark-mode'}`}>
+      <div className='container'>
+        <Header handleToggleDarkMode={setDarkMode} />
+        <Search handleSearchNote={setSearchText} />
+        <NotesList
+          // Filter the notes based on the search term before it gets passed to the notes list:
+          // 'note.text' is the text of the note.
+          // So, take the current list of notes, filter those notes to return only the ones that include the search text,
+          // which is what the user has typed into the search bar.
+          // It will then pass the result of this to the 'NotesList' component as a 'notes' prop:
+          notes={notes.filter((note) =>
+            note.text.toLowerCase().includes(searchText)
+          )}
+          handleAddNote={addNote}
+          handleDeleteNote={deleteNote}
+        />
+      </div>
     </div>
   );
 };
