@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
 import Header from './components/Header';
 import NotesList from './components/NotesList';
@@ -64,6 +64,31 @@ const App = () => {
     const newNotes = notes.filter((note) => note.id !== id);
     setNotes(newNotes);
   };
+
+  // Retrieve notes that are saved in local storage when app loads
+  useEffect(() => {
+    // When we retreive from local storage, we need to parse the data into a JavaScript object (remember the data is stringified when saved):
+    const savedNotes = JSON.parse(localStorage.getItem('react-notes-app-data'));
+
+    // Check if we received any notes from local storage,
+    // if yes, then set it into state.
+    // If there are no notes, it will not set anything into state.
+    if (savedNotes) {
+      setNotes(savedNotes);
+    }
+
+    // Empty dependency: Only run on first load - this is what we want,
+    // since we only want to retrieve our notes saved in local storage on first load.
+  }, []);
+
+  // Save notes to local storage
+  useEffect(() => {
+    // First parameter: Create a key that will be used to retrieve the notes: 'react-notes-app-data'.
+    // Second parameter: The data we want to save in local storage: 'notes' (good practice to stringify the data before saving it to local storage):
+    localStorage.setItem('react-notes-app-data', JSON.stringify(notes));
+
+    // by using 'useEffect', any time the 'notes' array changes, this will trigger automatically.
+  }, [notes]);
 
   return (
     // if 'darkMode' is equal to true (&&), then add the 'dark-mode' class:
